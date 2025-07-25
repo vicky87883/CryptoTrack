@@ -144,5 +144,3 @@ crypto-dashboard/
 ---
 
 ## 🔚 Thank You
-
-Looking forward to your feedback and next steps!
