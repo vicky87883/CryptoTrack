@@ -93,19 +93,45 @@ pm2 restart backend   # restart server
 ## 📁 Project Structure
 
 ```
-crypto-dashboard/
-├── client/         # React frontend
-│   └── src/
-│       └── components/
-│           ├── History.js
-│           └── CoinHistoryChart.js
-├── server/         # Express backend
-│   └── routes/
-│       ├── coins.js
-│       └── history.js
-│   └── services/cron.js
-├── .env
-└── README.md
+crypto-track/
+├── client/                     # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Coin.js
+│   │   │   ├── CoinHistoryChart.js
+│   │   │   ├── CoinList.js
+│   │   │   ├── CoinTable.js
+│   │   │   ├── Header.js
+│   │   │   ├── Loader.js
+│   │   │   └── SearchBar.js
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   └── ...
+│   └── package.json
+│
+├── server/                    # Express backend
+│   ├── config/
+│   │   └── config.json
+│   ├── migrations/
+│   │   ├── 20250723141548-create-coins.js
+│   │   ├── 20250723141615-create-coinhistory.js
+│   │   ├── 20250723160114-add-timestamps-to-coinhistory.js
+│   │   └── migrations_create_coinhistory.js
+│   ├── models/
+│   │   ├── Coin.js
+│   │   ├── CoinHistory.js
+│   │   ├── create-coinhistory-fixed.js
+│   │   └── index.js
+│   ├── routes/
+│   │   └── coinRoutes.js
+│   ├── .env
+│   ├── server.js
+│   ├── cron.js
+│   ├── package.json
+│   └── package-lock.json
+
 ```
 
 ---
