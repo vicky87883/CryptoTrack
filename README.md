@@ -1,7 +1,7 @@
 
-# 🚀 Crypto Dashboard – Developer Test (VR Automations) | Created Using PERN (Postgresql,Express,ReactJs,NodeJs)
+# 🚀 Crypto Dashboard – Developer Test (VR Automations) | Created Using PERN (PostgreSQL, Express, ReactJS, NodeJS)
 
-This is a full-stack crypto dashboard project built for the VR Automations developer test. It displays real-time and historical cryptocurrency data using CoinGecko API, Postgresql, Node.js, React, and Chart.js. It includes a backend cron job for fetching and storing data every hour.
+This is a full-stack crypto dashboard project built for the VR Automations developer test. It displays real-time and historical cryptocurrency data using CoinGecko API, PostgreSQL, Node.js, React, and Chart.js. It includes a backend cron job for fetching and storing data every minute.
 
 ---
 
@@ -17,27 +17,26 @@ This is a full-stack crypto dashboard project built for the VR Automations devel
 
 ## 📂 Tech Stack
 
-| Layer     | Tech Used               |
-|-----------|--------------------------|
+| Layer     | Tech Used                           |
+|-----------|--------------------------------------|
 | Frontend  | React.js, Bootstrap, Axios, Chart.js |
-| Backend   | Node.js, Express.js, MongoDB, Mongoose |
-| Scheduler | node-cron (via PM2) |
-| Database  | Postgresql (hosted on EC2) |
+| Backend   | Node.js, Express.js, PostgreSQL      |
+| Scheduler | node-cron (via PM2)                  |
+| Database  | PostgreSQL (hosted on EC2)           |
 | Hosting   | EC2 Ubuntu 22.04, Nginx Reverse Proxy, PM2 |
-| API Source| CoinGecko Public API |
+| API Source| CoinGecko Public API                 |
 
 ---
 
 ## ⚙️ How to Run Locally
 
-### 📦 Clone and Setup
-
 ```bash
+# Clone the repo
 git clone https://github.com/vicky87883/cryptotrack.git
-cd crypto
+cd crypto-dashboard
 ```
 
-### 🚀 Backend (Node + MongoDB)
+### 🚀 Backend (Node + PostgreSQL)
 
 ```bash
 cd server
@@ -47,7 +46,7 @@ node index.js   # or pm2 start index.js --name backend
 
 Ensure `.env` has:
 ```env
-MONGO_URI=mongodb://localhost:27017/crypto-dashboard
+DATABASE_URL=postgresql://user:password@localhost:5432/crypto
 PORT=5000
 ```
 
@@ -65,8 +64,8 @@ npm start    # or npm run build for production
 
 The backend uses `node-cron` to fetch data from CoinGecko every **minute** and save:
 
-- Coin prices to `coins` collection
-- Historic prices to `history` collection
+- Coin prices to `coins` table
+- Historic prices to `history` table
 
 > PM2 is used to keep the backend process running on the server.
 
@@ -82,9 +81,9 @@ pm2 restart backend   # restart server
 
 ## 🖼️ Screenshots
 
-### 📊 MongoDB Data
-- `coins` collection with latest prices
-- `history` collection with minute-wise price tracking
+### 📊 PostgreSQL Data
+- `coins` table with latest prices
+- `history` table with minute-wise price tracking
 
 ### ⏱️ Cron Logs
 - Output logs via `pm2 logs` showing fetch/save intervals
@@ -113,22 +112,22 @@ crypto-dashboard/
 
 ## ✅ API Endpoints
 
-| Method | Endpoint                           | Description |
-|--------|------------------------------------|-------------|
-| GET    | `/api/coins`                       | Get all current coin prices |
-| GET    | `/api/history/:coinId`             | Get historical prices for a coin |
+| Method | Endpoint                           | Description                           |
+|--------|------------------------------------|---------------------------------------|
+| GET    | `/api/coins`                       | Get all current coin prices           |
+| GET    | `/api/history/:coinId`             | Get historical prices for a coin      |
 | GET    | `/api/history?coinIds=bitcoin,...` | Get historical chart for multiple coins |
 
 ---
 
 ## ✅ Deployment Details
 
-| Layer     | Info |
-|-----------|------|
-| Instance  | EC2 Ubuntu |
-| Domain/IP | http://13.201.249.52 |
+| Layer     | Info                             |
+|-----------|----------------------------------|
+| Instance  | EC2 Ubuntu                       |
+| Domain/IP | http://13.201.249.52             |
 | Nginx     | Reverse proxy for React frontend + proxy `/api` to backend |
-| MongoDB   | Running locally on EC2 instance |
+| PostgreSQL| Running locally on EC2 instance  |
 | Backend   | Running via `pm2` as `backend` service |
 
 ---
@@ -136,11 +135,11 @@ crypto-dashboard/
 ## ✅ Final Deliverables (As per Test Instructions)
 
 - ✅ Live App on EC2
-- ✅ MongoDB with historical data
+- ✅ PostgreSQL with historical data
 - ✅ Running Cron Job via PM2
 - ✅ GitHub repo with full code
 - ✅ This README
-- ✅ Screenshots (MongoDB + Cron logs)
+- ✅ Screenshots (PostgreSQL + Cron logs)
 
 ---
 
