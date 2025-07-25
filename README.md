@@ -1,7 +1,7 @@
 
 # 🚀 Crypto Dashboard – Developer Test (VR Automations) | Created Using PERN (PostgreSQL, Express, ReactJS, NodeJS)
 
-This is a full-stack crypto dashboard project built for the VR Automations developer test. It displays real-time and historical cryptocurrency data using CoinGecko API, PostgreSQL, Node.js, React, and Chart.js. It includes a backend cron job for fetching and storing data every minute.
+This is a full-stack crypto dashboard project built for the VR Automations developer test. It displays real-time and historical cryptocurrency data using CoinGecko API, PostgreSQL, Node.js, React, and Chart.js. It includes a backend cron job for fetching and storing data every hour.
 
 ---
 
