@@ -84,7 +84,7 @@ const CoinTable = ({ coins }) => {
     <div>
       {/* Search Input */}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="fw-bold">Latest Cryptocurrencies</h5>
+        <h5 className="fw-bold">Live Cryptocurrencies Tracker</h5>
         <div className="input-container" style={{ maxWidth: '300px', position: 'relative' }}>
           <Form.Control
             type="text"
