@@ -1,4 +1,6 @@
+// migrations/XXXXXXXXXXXXXX-create-user.js
 'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
@@ -6,33 +8,33 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       username: {
         type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,
+        allowNull: false,
         unique: true,
-        allowNull: false
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
+
   down: async (queryInterface) => {
     await queryInterface.dropTable('Users');
-  }
+  },
 };

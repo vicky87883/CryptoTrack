@@ -12,8 +12,10 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // your React frontend
+  credentials: true                // allow cookies
+}));
 app.use(express.json());
 
 // Load DB config based on environment
@@ -33,11 +35,17 @@ sequelize.authenticate()
   .catch((err) => console.error('Unable to connect to the database:', err));
 
 // Session Middleware
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
   saveUninitialized: false,
-  store: new SequelizeStore({ db: sequelize })
+  store: new SequelizeStore({ db: sequelize }),
+  cookie: {
+    httpOnly: true,
+    secure: false, // set true in production w/ HTTPS
+    sameSite: 'lax' // allow cookies cross-origin on POST
+  }
 }));
 
 // Routes
