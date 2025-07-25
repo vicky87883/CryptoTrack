@@ -154,7 +154,7 @@ crypto-track/
 | Layer     | Info                             |
 |-----------|----------------------------------|
 | Instance  | EC2 Ubuntu                       |
-| Domain/IP | http://13.201.249.52             |
+| Domain/IP | http://13.201.249.52             
 | Nginx     | Reverse proxy for React frontend + proxy `/api` to backend |
 | PostgreSQL| Running locally on EC2 instance  |
 | Backend   | Running via `pm2` as `backend` service |
