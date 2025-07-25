@@ -1,12 +1,13 @@
+// src/components/CoinTable.js
 import React, { useMemo, useState } from 'react';
 import { useTable, useSortBy, useFilters } from 'react-table';
 import { FaArrowUp, FaArrowDown, FaSearch } from 'react-icons/fa';
-import { Form, Table } from 'react-bootstrap';
+import { Form, Table, Row, Col } from 'react-bootstrap';
+import bitcoinLogo from '../assets/img/bitcoins.gif'; // ensure image exists
 
 const CoinTable = ({ coins }) => {
   const [search, setSearch] = useState('');
 
-  // Filter coins based on the search query (client-side filtering)
   const filteredCoins = useMemo(() => {
     return coins.filter(
       (coin) =>
@@ -15,12 +16,11 @@ const CoinTable = ({ coins }) => {
     );
   }, [search, coins]);
 
-  // Define columns for react-table
   const columns = useMemo(
     () => [
       {
         Header: 'Rank',
-        accessor: 'id', // Use the coin ID to calculate rank
+        accessor: 'id',
         Cell: ({ row }) => `#${row.index + 1}`,
       },
       {
@@ -63,29 +63,29 @@ const CoinTable = ({ coins }) => {
 
   const data = useMemo(() => filteredCoins, [filteredCoins]);
 
-  // Use react-table hooks
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    setFilter,
   } = useTable(
     {
       columns,
       data,
     },
-    useFilters, // Use filter functionality
-    useSortBy // Use sort functionality
+    useFilters,
+    useSortBy
   );
 
   return (
     <div>
-      {/* Search Input */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="fw-bold">Live Cryptocurrencies Tracker</h5>
-        <div className="input-container" style={{ maxWidth: '300px', position: 'relative' }}>
+      <Row className="align-items-center g-3 mb-3">
+        <Col xs={12} md={6} className="d-flex align-items-center gap-2">
+          <img src={bitcoinLogo} alt="Bitcoin" width={30} height={30} className="rotating-logo" />
+          <h5 className="fw-bold mb-0 live-title">Live Cryptocurrencies Tracker</h5>
+        </Col>
+        <Col xs={12} md={6} className="position-relative">
           <Form.Control
             type="text"
             placeholder="Search coin..."
@@ -93,46 +93,35 @@ const CoinTable = ({ coins }) => {
             onChange={(e) => setSearch(e.target.value)}
             className="rounded-pill shadow-sm"
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)', // Transparent background
-              color: '#fff', // Text color for the input
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              color: '#fff',
               border: '1px solid #fff',
+              paddingRight: '2rem',
             }}
           />
-          {/* Search Icon inside the input box */}
           <FaSearch
-            className="input-icon"
-            size={16}
             style={{
               position: 'absolute',
               top: '50%',
-              right: '10px',
+              right: '20px',
               transform: 'translateY(-50%)',
-              color: '#fff',
+              color: '#ff971d',
             }}
           />
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-      {/* Table with react-table functionalities */}
-      <Table
-        {...getTableProps()}
-        responsive
-        hover
-        bordered
-        className="align-middle shadow-sm"
-      >
+      <Table {...getTableProps()} responsive hover bordered className="align-middle shadow-sm">
         <thead className="table-dark">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="sortable-column"
                   style={{ cursor: 'pointer' }}
                 >
                   {column.render('Header')}
-                  {/* Display sorting arrow */}
-                  <span style={{ marginLeft: '5px' }}>
+                  <span className="ms-1">
                     {column.isSorted ? (
                       column.isSortedDesc ? (
                         <FaArrowDown size={12} />
@@ -140,7 +129,7 @@ const CoinTable = ({ coins }) => {
                         <FaArrowUp size={12} />
                       )
                     ) : (
-                      <FaArrowDown size={12} style={{ opacity: 0.5 }} /> // Show a default down arrow
+                      <FaArrowDown size={12} style={{ opacity: 0.5 }} />
                     )}
                   </span>
                 </th>
@@ -153,9 +142,9 @@ const CoinTable = ({ coins }) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-                })}
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                ))}
               </tr>
             );
           })}

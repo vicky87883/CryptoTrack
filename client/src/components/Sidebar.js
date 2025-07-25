@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Nav, Offcanvas } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { FaChartLine, FaHistory } from 'react-icons/fa';
 
 const Sidebar = ({ show, onHide }) => {
-  const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -13,8 +12,27 @@ const Sidebar = ({ show, onHide }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const navItemClass = (path) =>
-    `text-white nav-link px-3 py-2 rounded ${location.pathname === path ? 'bg-secondary' : ''}`;
+  const activeStyle = {
+    backgroundColor: '#444c56',
+    borderRadius: '0.375rem'
+  };
+
+  const iconStyle = { color: '#ff971d' };
+  const linkTextStyle = { color: '#ffffff' };
+
+  const renderLink = (to, icon, label, end = false) => (
+    <Nav.Link
+      as={NavLink}
+      to={to}
+      end={end}
+      style={({ isActive }) => (isActive ? activeStyle : undefined)}
+      className="px-3 py-2 nav-link"
+      onClick={onHide}
+    >
+      {React.cloneElement(icon, { className: 'me-2', style: iconStyle })}
+      <span style={linkTextStyle}>{label}</span>
+    </Nav.Link>
+  );
 
   return isMobile ? (
     <Offcanvas show={show} onHide={onHide} responsive="md" style={{ backgroundColor: '#020716', color: '#ff971d' }}>
@@ -23,32 +41,19 @@ const Sidebar = ({ show, onHide }) => {
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Nav className="flex-column gap-2">
-          <Nav.Link as={Link} to="/" onClick={onHide} className={navItemClass('/')} >
-            <FaChartLine className="me-2" style={{color:'#ff971d'}}/>
-            Current Coins
-          </Nav.Link>
-          <Nav.Link as={Link} to="/history" onClick={onHide} className={navItemClass('/history')}>
-            <FaHistory className="me-2" style={{color:'#ff971d'}}/>
-            History
-          </Nav.Link>
+          {renderLink('/dashboard', <FaChartLine style={{ color: '#ffffff !important' }}/>, 'Current Coins', true)}
+          {renderLink('/dashboard/history', <FaHistory style={{ color: '#ffffff !important' }}/>, 'History')}
         </Nav>
       </Offcanvas.Body>
     </Offcanvas>
   ) : (
     <div
       className="d-none d-md-flex flex-column p-3"
-      style={{ width: '220px', minHeight: '100vh',backgroundColor: '#000411',color:'#ff971d' }}
+      style={{ width: '220px', minHeight: '100vh', backgroundColor: '#000411', color: '#ff971d' }}
     >
-      {/* <h4 className="text-white mb-4">CryptoTrack</h4> */}
       <Nav className="flex-column gap-2">
-        <Nav.Link as={Link} to="/" className={navItemClass('/')} >
-          <FaChartLine className="me-2" style={{color:'#ff971d'}}/>
-          Current Coins
-        </Nav.Link>
-        <Nav.Link as={Link} to="/history" className={navItemClass('/history')}>
-          <FaHistory className="me-2" style={{color:'#ff971d'}}/>
-          History
-        </Nav.Link>
+        {renderLink('/dashboard', <FaChartLine style={{ color: '#ffffff !important' }}/>, 'Current Coins', true)}
+        {renderLink('/dashboard/history', <FaHistory style={{ color: '#ffffff !important' }}/>, 'History')}
       </Nav>
     </div>
   );

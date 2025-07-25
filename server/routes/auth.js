@@ -1,28 +1,36 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
+const router = express.Router();
 const { User } = require('../models');
-require('dotenv').config();
 
-// Register
-router.post('/register', [
-  body('email').isEmail(),
-  body('password').isLength({ min: 6 })
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
-  const { email, password } = req.body;
+router.post('/register', async (req, res) => {
   try {
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) return res.status(400).json({ error: 'User already exists' });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashedPassword });
-    return res.status(201).json({ message: 'User registered', userId: user.id });
+    const { username, email, password } = req.body;
+    const hash = await bcrypt.hash(password, 10);
+    const user = await User.create({ username, email, password: hash });
+    req.session.userId = user.id;
+    res.status(201).json({ message: 'User registered' });
   } catch (err) {
-    return res.status(500).json({ error: 'Server error' });
+    res.status(400).json({ error: 'Registration failed', details: err.message });
   }
 });
+
+router.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ where: { username } });
+    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+    req.session.userId = user.id;
+    res.json({ message: 'Login successful' });
+  } catch (err) {
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => res.json({ message: 'Logged out' }));
+});
+
+module.exports = router;
