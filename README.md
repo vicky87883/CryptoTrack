@@ -80,6 +80,9 @@ pm2 restart backend   # restart server
 ---
 
 ## 🖼️ Screenshots
+[🚀 VR Automations — Developer Test Instructions.pdf](https://github.com/user-attachments/files/21427936/VR.Automations.Developer.Test.Instructions.pdf)
+<img width="1179" height="649" alt="cron-job-snapshot-db-1min-test-purpose" src="https://github.com/user-attachments/assets/f5bbc453-23bf-4354-ab13-04c4a2441246" />
+<img width="1209" height="675" alt="latest-coin-fetch-snapshot" src="https://github.com/user-attachments/assets/d08890ba-3854-4049-8abf-dfe141230480" />
 
 ### 📊 PostgreSQL Data
 - `coins` table with latest prices
