@@ -46,7 +46,7 @@ node index.js   # or pm2 start index.js --name backend
 
 Ensure `.env` has:
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/crypto
+DATABASE_URL=postgresql://user:password@localhost:5432/crypto_db
 PORT=5000
 ```
 
@@ -62,7 +62,7 @@ npm start    # or npm run build for production
 
 ## ⏱️ Cron Job
 
-The backend uses `node-cron` to fetch data from CoinGecko every **minute** and save:
+The backend uses `node-cron` to fetch data from CoinGecko every **hour** and save:
 
 - Coin prices to `coins` table
 - Historic prices to `history` table
