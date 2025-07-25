@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const { CoinHistory } = require('../models');  // Make sure we are using the correct import for Sequelize model
+const { CoinHistory } = require('../models');  
 const router = express.Router();
 
 // Route to fetch current top 10 coins

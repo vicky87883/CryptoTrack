@@ -43,5 +43,5 @@ async function fetchAndSaveData() {
   }
 }
 
-cron.schedule('* * * * *', fetchAndSaveData);  // Every minute
+cron.schedule('0 * * * *', fetchAndSaveData);  // Every Hour
 
