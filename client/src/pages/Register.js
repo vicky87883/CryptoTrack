@@ -20,10 +20,9 @@ const Register = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!username) newErrors.username = 'Username is required';
+    if (!username.trim()) newErrors.username = 'Username is required';
     if (!email) newErrors.email = 'Email is required';
     else if (!emailRegex.test(email)) newErrors.email = 'Invalid email format';
-
     if (!password) newErrors.password = 'Password is required';
     else if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
 
@@ -41,16 +40,16 @@ const Register = () => {
         email,
         password
       });
-      toast.success('Registration successful');
-      setTimeout(() => navigate('/login'), 1500);
-    } catch (error) {
-      toast.error('Registration failed');
+      toast.success('Registration successful. Please check your email to verify.');
+      setTimeout(() => navigate('/login'), 2000);
+    } catch (err) {
+      toast.error('Registration failed. Try again.');
     }
   };
 
   return (
     <div style={{ backgroundColor: '#020716' }}>
-      <ToastContainer position="top-right" autoClose={2000} theme="dark" />
+      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       <div className="auth-container d-flex align-items-center justify-content-center vh-100" style={{
         backgroundImage: `url(${backgroundImg})`,
         backgroundSize: 'cover',
@@ -58,7 +57,7 @@ const Register = () => {
       }}>
         <div className="auth-box dark-glass p-4 rounded" style={{ backgroundColor: '#000000' }}>
           <h2 className="text" style={{ color: 'rgb(255, 151, 29)' }}>Sign Up</h2>
-          <p className="text-white text-center">Register to access crypto dashboard</p>
+          <p className="text-white text-center">Create your account to get started.</p>
           <form onSubmit={handleSubmit} noValidate>
             <div className="input-group mb-2">
               <span className="input-group-text bg-dark" style={{ color: 'rgb(255, 151, 29)', borderColor: 'rgb(255, 151, 29)' }}><FaUser /></span>
@@ -101,7 +100,7 @@ const Register = () => {
 
             <button type="submit" className="btn w-100 mt-3" style={{ backgroundColor: 'rgb(255, 151, 29)', color: '#fff' }}>Sign Up</button>
           </form>
-          <p className="text-white text-center mt-3">Already have an account? <Link to="/login" style={{ color: 'rgb(255, 151, 29)' }}>Login here</Link></p>
+          <p className="text-white text-center mt-3">Already have an account? <Link to="/login" style={{ color: 'rgb(255, 151, 29)' }}>Click here to sign in</Link></p>
         </div>
       </div>
     </div>

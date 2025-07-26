@@ -2,41 +2,74 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
-
+const jwt = require('jsonwebtoken');
+const sendVerificationEmail = require('../utils/sendVerificationEmail');
 const router = express.Router();
 
 // Register
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
-  if (!username || !email || !password) return res.status(400).json({ error: 'All fields required' });
-
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ username, email, password: hashedPassword });
-    res.status(201).json({ message: 'User registered successfully' });
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    await sendVerificationEmail(email, token);
+
+    res.status(201).json({ message: 'Verification email sent.' });
   } catch (err) {
-    res.status(500).json({ error: 'Registration failed', details: err.message });
+    res.status(500).json({ message: 'Registration failed' });
   }
 });
 
+router.get('/verify', async (req, res) => {
+  try {
+    const { token } = req.query;
+    const { id } = jwt.verify(token, process.env.JWT_SECRET);
+    await User.update({ isVerified: true }, { where: { id } });
+    res.redirect('http://localhost:3000/login?verified=true');
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid or expired token' });
+  }
+});
 // Login
+// routes/auth.js
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
 
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
 
-    req.session.user = { id: user.id, username: user.username };
-    res.json({ message: 'Login successful', user: req.session.user });
+    if (!user.isVerified) {
+      return res.status(401).json({ error: 'Please verify your email' });
+    }
+
+    req.session.user = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+
+    // ✅ Send emailVerified field based on isVerified column
+    res.json({
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        isVerified: user.isVerified,
+      },
+    });
+
   } catch (err) {
-    res.status(500).json({ error: 'Login failed', details: err.message });
+    res.status(500).json({ error: 'Login failed' });
   }
 });
+
 
 // Get current session user
 router.get('/me', (req, res) => {
@@ -55,5 +88,7 @@ router.post('/logout', (req, res) => {
     res.json({ message: 'Logged out' });
   });
 });
+
+
 
 module.exports = router;

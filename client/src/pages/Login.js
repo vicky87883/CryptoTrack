@@ -42,6 +42,12 @@ const Login = () => {
         { email, password },
         { withCredentials: true }
       );
+
+      if (!data.user?.isVerified) {
+        toast.error('Please verify your email first.');
+        return;
+      }
+
       setUser(data.user);
       toast.success('Login successful');
       setTimeout(() => navigate('/dashboard'), 1500);
