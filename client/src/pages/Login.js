@@ -36,32 +36,32 @@ const Login = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }}>
-      <div className="auth-box dark-glass p-4 rounded" style={{ backgroundColor: '#000000',padding: '10px' }}>
-        <h2 className="text-warning mb-3 text-center">Sign In</h2>
+      <div className="auth-box dark-glass p-4 rounded" style={{ backgroundColor: '#000000' }}>
+        <h2 className="text" style={{ color: 'rgb(255, 151, 29)' }}>Sign In</h2>
         <p className="text-white text-center">Login to track your favorite cryptocurrencies.</p>
         <form onSubmit={handleSubmit}>
           <div className="input-group mb-3">
-            <span className="input-group-text bg-dark text-warning border-warning"><FaEnvelope /></span>
+            <span className="input-group-text bg-dark" style={{ color: 'rgb(255, 151, 29)', borderColor: 'rgb(255, 151, 29)' }}><FaEnvelope /></span>
             <input
               type="email"
-              className="form-control border-warning"
+              className="form-control"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{ backgroundColor: '#020716', color: '#b3b3c0', '::placeholder': { color: '#b3b3c0' } }}
+              style={{ backgroundColor: '#020716', color: '#b3b3c0', borderColor: 'rgb(255, 151, 29)' }}
             />
           </div>
           <div className="input-group mb-3">
-            <span className="input-group-text bg-dark text-warning border-warning"><FaLock /></span>
+            <span className="input-group-text bg-dark" style={{ color: 'rgb(255, 151, 29)', borderColor: 'rgb(255, 151, 29)' }}><FaLock /></span>
             <input
               type="password"
-              className="form-control border-warning"
+              className="form-control"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{ backgroundColor: '#020716', color: '#b3b3c0', '::placeholder': { color: '#b3b3c0' } }}
+              style={{ backgroundColor: '#020716', color: '#b3b3c0', borderColor: 'rgb(255, 151, 29)' }}
             />
           </div>
           {error && <p className="text-danger text-center">{error}</p>}
@@ -69,9 +69,9 @@ const Login = () => {
             <div>
               <input type="checkbox" /> Remember Me?
             </div>
-            <span className="text-warning">Forgot Password?</span>
+            <span style={{ color: 'rgb(255, 151, 29)' }}>Forgot Password?</span>
           </div>
-          <button type="submit" className="btn btn-warning w-100 mt-3">Sign In</button>
+          <button type="submit" className="btn w-100 mt-3" style={{ backgroundColor: 'rgb(255, 151, 29)', color: '#fff' }}>Sign In</button>
         </form>
         <p className="text-white text-center mt-3">or sign in with others account?</p>
         <div className="d-flex justify-content-center gap-3 mb-3">
@@ -80,7 +80,7 @@ const Login = () => {
           <i className="bi bi-instagram text-white fs-4"></i>
           <i className="bi bi-linkedin text-white fs-4"></i>
         </div>
-        <p className="text-white text-center">Don't have an account? <Link to="/register" className="text-warning">Click here to sign up</Link></p>
+        <p className="text-white text-center">Don't have an account? <Link to="/register" style={{ color: 'rgb(255, 151, 29)' }}>Click here to sign up</Link></p>
       </div>
     </div>
   );
